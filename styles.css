@@ -1,0 +1,304 @@
+/* Violet Bridge Security LLC — Site Styles
+   GitHub Pages-ready. Minimal, fast, responsive, and accessible.
+*/
+
+/* ---------- CSS Reset (trimmed) ----------- */
+*,
+*::before,
+*::after { box-sizing: border-box; }
+html:focus-within { scroll-behavior: smooth; }
+body, h1, h2, h3, h4, p, figure, blockquote, dl, dd { margin: 0; }
+ul[role='list'], ol[role='list'] { list-style: none; }
+img, picture { max-width: 100%; display: block; }
+input, button, textarea, select { font: inherit; }
+:root { color-scheme: light dark; }
+
+/* ---------- Theme ---------- */
+:root {
+  --bg: #0f0f14;
+  --surface: #16161d;
+  --surface-2: #1c1c26;
+  --text: #e9e9ef;
+  --text-dim: #b9b9c8;
+  --primary: #6f3bd6;
+  --primary-2: #5b2dbd;
+  --accent: #a78bfa;
+  --ok: #21c07a;
+  --danger: #ef4444;
+  --ring: 0 0 0 3px rgba(111, 59, 214, .35);
+  --shadow: 0 10px 25px rgba(0,0,0,.25);
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg: #f9f9fb;
+    --surface: #ffffff;
+    --surface-2: #f1f1f7;
+    --text: #171717;
+    --text-dim: #58596a;
+    --primary: #5b2dbd;
+    --primary-2: #4a22a4;
+    --accent: #6f3bd6;
+    --ring: 0 0 0 3px rgba(91, 45, 189, .25);
+    --shadow: 0 6px 20px rgba(0,0,0,.08);
+  }
+}
+
+/* ---------- Base ---------- */
+html, body {
+  height: 100%;
+}
+body {
+  font-family:
+    Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial,
+    "Apple Color Emoji", "Segoe UI Emoji";
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a { color: inherit; text-decoration: none; }
+a:hover { text-decoration: underline; text-underline-offset: 3px; }
+
+.container {
+  width: min(1100px, 92%);
+  margin-inline: auto;
+}
+
+.section {
+  padding: clamp(48px, 8vw, 96px) 0;
+}
+
+.section.alt {
+  background: var(--surface-2);
+}
+
+/* ---------- Skip link ---------- */
+.skip-link {
+  position: absolute;
+  left: -999px; top: auto; width: 1px; height: 1px; overflow: hidden;
+}
+.skip-link:focus {
+  position: fixed;
+  left: 16px; top: 16px; width: auto; height: auto;
+  background: var(--primary); color: #fff; padding: 10px 14px; border-radius: 10px;
+  outline: none; box-shadow: var(--ring);
+}
+
+/* ---------- Header ---------- */
+.site-header {
+  position: sticky; top: 0; z-index: 50;
+  backdrop-filter: saturate(140%) blur(8px);
+  background: color-mix(in oklab, var(--bg), transparent 15%);
+  border-bottom: 1px solid color-mix(in oklab, var(--text-dim), transparent 85%);
+}
+.header-inner {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 0;
+}
+
+.brand {
+  display: inline-flex; align-items: center; gap: 12px; font-weight: 700; letter-spacing: .2px;
+}
+.brand-text { font-size: 1.05rem; }
+.brand-primary { color: var(--primary); }
+.brand-secondary { opacity: .95; }
+.brand-llc { font-weight: 600; opacity: .8; }
+
+.brand-mark { display: inline-block; }
+.brand-mark rect { fill: var(--primary-2); }
+.brand-mark .bridge {
+  stroke: #fff; stroke-width: 4; fill: none; stroke-linecap: round;
+}
+.brand-mark .node { fill: #fff; }
+
+.nav-toggle {
+  display: none;
+  background: var(--surface);
+  border: 1px solid color-mix(in oklab, var(--text-dim), transparent 80%);
+  border-radius: 12px; padding: 8px 12px; line-height: 1;
+  cursor: pointer;
+}
+.site-nav ul { display: flex; gap: 20px; align-items: center; }
+.site-nav a { padding: 8px 10px; border-radius: 10px; }
+.site-nav a:hover { background: color-mix(in oklab, var(--text), transparent 90%); text-decoration: none; }
+
+/* Buttons */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  gap: 10px;
+  background: var(--primary);
+  border: none; color: #fff; padding: 12px 18px; border-radius: 14px;
+  box-shadow: var(--shadow);
+  transition: transform .12s ease, box-shadow .2s ease, background .2s ease;
+  text-decoration: none;
+}
+.btn:hover { transform: translateY(-1px); text-decoration: none; }
+.btn:focus-visible { outline: none; box-shadow: var(--ring); }
+.btn:active { transform: translateY(0); }
+.btn-outline {
+  background: transparent; color: var(--primary);
+  border: 1px solid currentColor; box-shadow: none;
+}
+.btn-small { padding: 8px 12px; border-radius: 12px; }
+
+/* ---------- Hero ---------- */
+.hero {
+  position: relative;
+  background:
+    radial-gradient(80% 60% at 50% -10%, color-mix(in oklab, var(--primary), transparent 75%), transparent 60%),
+    linear-gradient(180deg, color-mix(in oklab, var(--surface), transparent 0%), transparent 70%);
+}
+.hero-inner {
+  padding: clamp(48px, 6vw, 72px) 0;
+}
+.hero h1 {
+  font-size: clamp(28px, 5vw, 44px);
+  line-height: 1.15;
+  letter-spacing: .2px;
+}
+.hero .accent { color: var(--accent); }
+.lead {
+  margin-top: 12px;
+  color: var(--text-dim);
+  font-size: clamp(16px, 2.4vw, 18px);
+  max-width: 70ch;
+}
+.hero-ctas { display: flex; gap: 12px; margin-top: 18px; flex-wrap: wrap; }
+
+.trust-badges {
+  margin-top: 20px; display: flex; flex-wrap: wrap; gap: 10px; padding-left: 0;
+}
+.trust-badges li {
+  list-style: none;
+  padding: 8px 12px; border-radius: 999px;
+  background: var(--surface-2);
+  border: 1px solid color-mix(in oklab, var(--text-dim), transparent 80%);
+  font-size: 14px;
+}
+
+/* ---------- Cards / Grid ---------- */
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+.grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid color-mix(in oklab, var(--text-dim), transparent 85%);
+  border-radius: 18px;
+  padding: 18px;
+  box-shadow: var(--shadow);
+  min-height: 110px;
+}
+.card h3 { margin-bottom: 6px; font-size: 1.05rem; }
+.card p { color: var(--text-dim); }
+
+/* ---------- Steps ---------- */
+.steps {
+  display: grid; gap: 16px;
+  grid-template-columns: repeat(3, minmax(0,1fr));
+}
+.step {
+  background: var(--surface);
+  border: 1px solid color-mix(in oklab, var(--text-dim), transparent 85%);
+  padding: 16px; border-radius: 16px;
+  box-shadow: var(--shadow);
+}
+.step h3 { margin-bottom: 6px; }
+
+/* ---------- Chips ---------- */
+.chips { display: flex; flex-wrap: wrap; gap: 10px; }
+.chip {
+  background: var(--surface-2);
+  border: 1px solid color-mix(in oklab, var(--text-dim), transparent 82%);
+  padding: 8px 12px; border-radius: 999px; font-size: 14px;
+}
+
+/* ---------- About ---------- */
+.about { display: grid; gap: 24px; grid-template-columns: 1fr; }
+.about-text p { color: var(--text-dim); max-width: 70ch; }
+
+/* ---------- Contact ---------- */
+.contact .contact-form {
+  display: grid; gap: 12px;
+  background: var(--surface);
+  padding: 18px; border-radius: 18px;
+  border: 1px solid color-mix(in oklab, var(--text-dim), transparent 85%);
+  box-shadow: var(--shadow);
+}
+.contact-form label {
+  display: grid; gap: 8px; font-weight: 600; font-size: 0.95rem;
+}
+.contact-form input[type="text"],
+.contact-form input[type="email"],
+.contact-form textarea {
+  background: var(--surface-2);
+  border: 1px solid color-mix(in oklab, var(--text-dim), transparent 75%);
+  color: var(--text);
+  padding: 12px 12px; border-radius: 12px;
+}
+.contact-form input:focus,
+.contact-form textarea:focus { outline: none; box-shadow: var(--ring); }
+.contact-form button { margin-top: 6px; }
+
+/* ---------- Footer ---------- */
+.site-footer {
+  padding: 20px 0; background: var(--surface-2);
+  border-top: 1px solid color-mix(in oklab, var(--text-dim), transparent 85%);
+}
+.footer-inner { display: flex; align-items: center; justify-content: center; }
+.footer-inner p { color: var(--text-dim); }
+
+/* ---------- Back to top ---------- */
+.back-to-top {
+  position: fixed; right: 16px; bottom: 16px; z-index: 60;
+  display: grid; place-items: center;
+  width: 42px; height: 42px; border-radius: 50%;
+  background: var(--primary);
+  color: #fff; border: none; box-shadow: var(--shadow);
+  opacity: 0; visibility: hidden; transform: translateY(8px);
+  transition: opacity .2s ease, transform .2s ease, visibility .2s ease;
+}
+.back-to-top.show { opacity: 1; visibility: visible; transform: translateY(0); }
+.back-to-top:focus-visible { outline: none; box-shadow: var(--ring); }
+
+/* ---------- Reveal on scroll ---------- */
+.reveal {
+  opacity: 0; transform: translateY(8px); transition: opacity .4s ease, transform .4s ease;
+}
+.reveal.in {
+  opacity: 1; transform: translateY(0);
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 900px) {
+  .grid-3 { grid-template-columns: 1fr 1fr; }
+  .steps { grid-template-columns: 1fr; }
+  .brand-text { display: none; }
+}
+
+@media (max-width: 700px) {
+  .grid-3, .grid-2 { grid-template-columns: 1fr; }
+  .nav-toggle { display: inline-block; }
+  .site-nav { position: absolute; inset: 60px 0 auto 0; }
+  .site-nav ul {
+    position: absolute; right: 4%; left: 4%;
+    display: grid; gap: 10px; padding: 14px;
+    border-radius: 14px; background: var(--surface);
+    border: 1px solid color-mix(in oklab, var(--text-dim), transparent 80%);
+    box-shadow: var(--shadow);
+    opacity: 0; transform: translateY(-10px); pointer-events: none;
+    transition: opacity .2s ease, transform .2s ease;
+  }
+  .site-nav.open ul { opacity: 1; transform: translateY(0); pointer-events: auto; }
+}
+
