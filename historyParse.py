@@ -18,20 +18,18 @@ if not os.path.exists(file):
     sys.exit(1)
 
 try:
-    # open database
-    db = sqlite3.connect(file)
+    # open database in read-only mode
+    db = sqlite3.connect(f"file:{file}?mode=ro", uri=True)
     c = db.cursor()
     
     # print file name
     print(f"Source File: {file}")
-    print()
     
     # count all downloads
     c.execute("SELECT COUNT(*) FROM downloads")
     result = c.fetchone()
     num = result[0]
     print(f"Total Downloads: {num}")
-    print()
     
     # find longest download by calculating actual duration
     # Chrome stores times in microseconds since Windows epoch (1601)
@@ -60,14 +58,12 @@ try:
         
         print(f"Longest Download: {name}")
         print(f"Longest Download Bytes: {size}")
-        print()
     
     # count unique search term
     c.execute("SELECT COUNT(DISTINCT term) FROM keyword_search_terms")
     result = c.fetchone()
     searches = result[0]
     print(f"Unique Search Terms: {searches}")
-    print()
     
     # get most recent search term using proper join
     c.execute("""
