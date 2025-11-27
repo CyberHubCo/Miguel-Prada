@@ -1,7 +1,8 @@
 import sqlite3
 import sys
 import os
-from datetime import datetime, timedelta
+import ntpath
+from datetime import datetime, timezone
 
 # check if user gave us a file
 if len(sys.argv) < 2:
@@ -54,8 +55,8 @@ try:
         if size is None:
             size = 0
         
-        # Extract filename using os.path for better handling
-        name = os.path.basename(path)
+        # Extract filename using ntpath to handle Windows-style paths on any OS
+        name = ntpath.basename(path)
         
         print(f"Longest Download: {name}")
         print(f"Longest Download Bytes: {size}")
@@ -92,8 +93,8 @@ try:
         # Convert microseconds to seconds and adjust for epoch
         unix_timestamp = (webkit_time / 1000000.0) - EPOCH_DIFF
         
-        # Convert to datetime
-        dt = datetime.utcfromtimestamp(unix_timestamp)
+        # Convert to datetime using timezone-aware method
+        dt = datetime.fromtimestamp(unix_timestamp, timezone.utc)
         
         # Format the date
         date = dt.strftime("%m/%d/%Y %H:%M:%S")
