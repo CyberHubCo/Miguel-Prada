@@ -55,7 +55,7 @@ try:
         if size is None:
             size = 0
         
-        # Extract filename using ntpath for Windows paths
+        # Extract filename using ntpath to handle Windows-style paths on any OS
         name = ntpath.basename(path)
         
         print(f"Longest Download: {name}")
