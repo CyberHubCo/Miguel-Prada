@@ -5,6 +5,13 @@ import os
 from datetime import datetime, timezone
 
 EPOCH_DIFF = 11644473600  # seconds between 1601-01-01 and 1970-01-01
+NO_TARGET_PATH = "<no target_path available>"
+
+def get_file_size(total_bytes, received_bytes):
+    """Get file size, preferring total_bytes, falling back to received_bytes, else 0."""
+    if total_bytes is None:
+        return received_bytes if received_bytes is not None else 0
+    return total_bytes
 
 def webkit_time_to_datetime(webkit_time):
     try:
@@ -59,17 +66,39 @@ def main():
             idx = 1
             for row in rows:
                 target_path, total_bytes, received_bytes = row
-                # prefer total_bytes, fallback to received_bytes, else 0
-                if total_bytes is None:
-                    total_bytes = received_bytes if received_bytes is not None else 0
+                file_size = get_file_size(total_bytes, received_bytes)
                 if not target_path:
-                    target_path = "<no target_path available>"
+                    target_path = NO_TARGET_PATH
                 # print each downloaded file and its size
                 print(f" {idx}. File Name: {target_path}")
-                print(f"    File Size: {total_bytes}")
+                print(f"    File Size: {file_size}")
                 idx += 1
         else:
             print(" <no downloads found or downloads table missing>")
+
+        # Find file that took the longest time to download
+        try:
+            c.execute("""
+                SELECT target_path, total_bytes, received_bytes, (end_time - start_time) as duration
+                FROM downloads
+                WHERE end_time IS NOT NULL AND start_time IS NOT NULL
+                ORDER BY duration DESC
+                LIMIT 1
+            """)
+            longest_download = c.fetchone()
+        except sqlite3.Error:
+            longest_download = None
+
+        if longest_download:
+            target_path, total_bytes, received_bytes, duration = longest_download
+            file_size = get_file_size(total_bytes, received_bytes)
+            if not target_path:
+                target_path = NO_TARGET_PATH
+            print(f"Longest Download File Name: {target_path}")
+            print(f"Longest Download File Size (bytes): {file_size}")
+        else:
+            print("Longest Download File Name: <none found>")
+            print("Longest Download File Size (bytes): <n/a>")
 
         # 5) Number of unique search terms
         unique_search_terms = safe_fetch_count(c, "SELECT COUNT(DISTINCT term) FROM keyword_search_terms")
